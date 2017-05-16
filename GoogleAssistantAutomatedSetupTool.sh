@@ -1,4 +1,11 @@
 #!/bin/bash
+
+googlesamples_assistant=$(locate -n 1 /env/bin/googlesamples-assistant)
+setuptools=$(locate -n 1 /env/lib/python3.5/site-packages/setuptools)
+python_environment=$(locate -n 1 /env/bin/activate)
+client_secret_json_path=$(locate -n 1 apps.googleusercontent.com.json)
+
+
 clear
 
 echo "Welcome to the Google Assistant Automated Setup Tool"
@@ -7,7 +14,7 @@ echo "By u/VanishingTacos aka Linux Lord"
 sleep 2
 clear
 echo "A special thanks to Novaspirit Tech (https://goo.gl/8DZhea) for inspiring this project"
-sleep 3
+sleep 2
 clear
 
 #Update Database 
@@ -19,6 +26,9 @@ while true; do
         * ) echo "Please answer yes or no.";;
     esac
 done
+
+echo "Database was successfully updated!"
+sleep 4
 
 clear
 
@@ -33,9 +43,6 @@ echo -ne '\n'
 sleep .5
 
 clear
-googlesamples_assistant=$(locate -n 1 /env/bin/googlesamples-assistant)
-setuptools=$(locate -n 1 /env/lib/python3.5/site-packages/setuptools)
-python_environment=$(locate -n 1 /env/bin/activate)
 
 	if [ -f "$python_environment" ] && [ -d "$setuptools" ] && [ -f "$googlesamples_assistan" ]
 		then 
@@ -44,13 +51,13 @@ python_environment=$(locate -n 1 /env/bin/activate)
     case $yn in
         [Yy]* ) source $python_environment; python -m googlesamples.assistant;
 		break;;
-		[Nn]* )echo "okay..."; sleep 3; break;;
+		[Nn]* )echo "okay..."; sleep 2; break;;
        	* ) echo "Please answer yes or no.";;
     esac
 done
 		else 
-			echo "It looks like Google Assistant is not set up yet! The script will continue in 3 seconds."
-			sleep 3
+			echo "It looks like Google Assistant is not set up yet! The script will continue in 4 seconds."
+			sleep 4
 		fi
 clear
 
@@ -59,19 +66,18 @@ while true; do
     read -p "Please follow the directions at https://goo.gl/mCmiVh to configure a developer project and account settings. Do you wish to open the link? (y/n)" yn
     case $yn in
         [Yy]* )echo "Opening in 3 seconds"; sleep 3; x-www-browser https://goo.gl/mCmiVh; break;;
-        [Nn]* )echo "Okay.."; sleep 3; break;; 
+        [Nn]* )echo "Okay.."; sleep 2; break;; 
         * ) echo "Please answer yes or no.";;
     esac
 done
 
 clear
 
-echo "Please enter the path of your client-secret.json: "
-read client_secret_json_path
-clear
-echo "You entered $client_secret_json_path"
-sleep 2
-echo "Testing Configuration..."
+echo "Please make sure you have downloaded the client-secret.json file before you continue!"
+read -n 1 -s -p "Press any key to continue"
+sudo updatedb
+
+echo "Searching for client-secret.json ..."
 echo -ne '#####                     (33%)\r'
 sleep 1
 echo -ne '#############             (66%)\r'
@@ -85,8 +91,8 @@ then
 	echo "The client-secret.json has been loaded successfully!" 
 	sleep 2
 else
-	echo "The client-secret.json failed to load!"
-	sleep 3
+	echo "The client-secret.json failed to load! Will exit in 3 seconds..."
+	sleep 2
 	exit
 fi
 
@@ -109,15 +115,14 @@ clear
 while true; do
     read -p "Do you wish to upgrade your system? (y/n)" yn
     case $yn in
-        [Yy]* ) sudo apt-get update && sudo apt-get upgrade
-		break;;
+        [Yy]* ) sudo apt-get update && sudo apt-get upgrade; echo "Upgrade completed successfully!"
+sleep 2; break;;
 		[Nn]* )echo "okay..."; break;;
        	* ) echo "Please answer yes or no.";;
     esac
 done
 
 clear
-
 
 #Install python3-dev & python3-venv
 while true; do
@@ -159,7 +164,7 @@ clear
 while true; do
     read -p "Do you wish to enable the python environment? (y/n)" yn
     case $yn in
-        [Yy]* ) python3 -m venv env; break;;
+        [Yy]* ) python3 -m venv env; sudo updatedb; break;;
         [Nn]* ) echo "Google Assistant set up failure.."; sleep 5; exit;;
         * ) echo "Please answer yes or no.";;
     esac
@@ -173,7 +178,7 @@ then
 	sleep 2
 else
 	echo "The python environment failed to load!"
-	sleep 3
+	sleep 2
 	exit
 fi
 
@@ -208,7 +213,7 @@ done
 
 clear
 
-echo "Entrance of the python environment was completed successfully!"
+echo "Python environment was successfully entered!"
 sleep 2
 
 clear
@@ -230,19 +235,6 @@ sleep 2
 
 clear
 
-echo "Please wait while the system loads..."
-echo -ne '#####                     (33%)\r'
-sleep 1
-echo -ne '#############             (66%)\r'
-sleep 1
-echo -ne '#######################   (100%)\r'
-echo -ne '\n'
-sleep .5
-echo "Load complete..."
-sleep .5
-
-clear
-
 #Authentication
 while true; do
     read -p "Do you wish to authenticate now? (y/n)" yn
@@ -258,7 +250,7 @@ clear
 clear
 
 echo "Authentication was performed successfully!"
-sleep 2
+read -n 1 -s -p "Press any key to continue"
 
 clear
 
@@ -266,9 +258,7 @@ clear
 while true; do
     read -p "Would you like to start Google Assistant now? (y/n)" yn
     case $yn in
-        [Yy]* ) python -m googlesamples.assistant;
-
-echo "Please wait while the system loads..."
+        [Yy]* ) echo "Starting Google Assistant now..."
 echo -ne '#####                     (33%)\r'
 sleep 1
 echo -ne '#############             (66%)\r'
@@ -277,6 +267,11 @@ echo -ne '#######################   (100%)\r'
 echo -ne '\n'
 sleep .5
 echo "Load complete..."
+sleep .5
+
+clear
+
+python -m googlesamples.assistant;
 
  break;;
         [Nn]* ) echo "Google Assistant failure.."; sleep 5; exit;;
