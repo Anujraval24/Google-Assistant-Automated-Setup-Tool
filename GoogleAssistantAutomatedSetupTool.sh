@@ -164,11 +164,13 @@ clear
 while true; do
     read -p "Do you wish to enable the python environment? (y/n)" yn
     case $yn in
-        [Yy]* ) python3 -m venv env; sudo updatedb; break;;
+        [Yy]* ) python3 -m venv env; break;;
         [Nn]* ) echo "Google Assistant set up failure.."; sleep 5; exit;;
         * ) echo "Please answer yes or no.";;
     esac
 done
+
+sudo updatedb
 
 clear
 
