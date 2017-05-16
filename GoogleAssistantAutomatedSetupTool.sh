@@ -1,11 +1,5 @@
 #!/bin/bash
 
-googlesamples_assistant=$(locate -n 1 /env/bin/googlesamples-assistant)
-setuptools=$(locate -n 1 /env/lib/python3.5/site-packages/setuptools)
-python_environment=$(locate -n 1 /env/bin/activate)
-client_secret_json_path=$(locate -n 1 apps.googleusercontent.com.json)
-
-
 clear
 
 echo "Welcome to the Google Assistant Automated Setup Tool"
@@ -43,8 +37,14 @@ echo -ne '\n'
 sleep .5
 
 clear
+	
+	googlesamples_assistant=$(locate -n 1 /env/bin/googlesamples-assistant)
+	setuptools=$(locate -n 1 /env/lib/python3.5/site-packages/setuptools)
+	python_environment=$(locate -n 1 /env/bin/activate)
 
-	if [ -f "$python_environment" ] && [ -d "$setuptools" ] && [ -f "$googlesamples_assistan" ]
+
+
+	if [ -f "$python_environment" ] && [ -d "$setuptools" ] && [ -f "$googlesamples_assistant" ]
 		then 
 			while true; do
     read -p "It looks like you already have Google Assistant setup! Do you wish to start Google Assistant now? (y/n)" yn
@@ -76,6 +76,7 @@ clear
 echo "Please make sure you have downloaded the client-secret.json file before you continue!"
 read -n 1 -s -p "Press any key to continue"
 sudo updatedb
+clear
 
 echo "Searching for client-secret.json ..."
 echo -ne '#####                     (33%)\r'
@@ -85,6 +86,9 @@ sleep 1
 echo -ne '#######################   (100%)\r'
 echo -ne '\n'
 sleep .5
+
+client_secret_json_path=$(locate -n 1 apps.googleusercontent.com.json)
+
 
 if [ -f $client_secret_json_path ]
 then
@@ -146,7 +150,8 @@ clear
 while true; do
     read -p "Do you wish to install portaudio19-dev, libffi-dev, and libssl-dev? (y/n)" yn
     case $yn in
-        [Yy]* ) sudo apt-get install portaudio19-dev libffi-dev libssl-dev
+        [Yy]* ) 
+
 		break;;
         [Nn]* ) echo "Google Assistant set up failure.."; sleep 5; exit;;
         * ) echo "Please answer yes or no.";;
@@ -174,9 +179,11 @@ sudo updatedb
 
 clear
 
+python_environment=$(locate -n 1 /env/bin/activate)
+
 if [ -f "$python_environment" ]
 then
-	echo "The python environment has been load successfully!" 
+	echo "The python environment has been loaded successfully!" 
 	sleep 2
 else
 	echo "The python environment failed to load!"
