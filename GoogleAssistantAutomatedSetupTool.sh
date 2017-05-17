@@ -263,6 +263,22 @@ read -n 1 -s -p "Press any key to continue"
 
 clear
 
+google=$(locate -n 1 Google.sh)
+#Create easy access to Google Assistant
+
+while true; do
+    read -p "Would you like create easy access to Google Assistant? This would allow you to type "Google.sh" into the terminal at it would run Google Assistant. (y/n)" yn
+    case $yn in
+        [Yy]* ) sudo cp $google /usr/local/bin; echo "Now you can type "Google.sh" in a new terminal and will run Google Assistant";
+				sleep 3; break;;
+        [Nn]* ) echo "okay.."; sleep 5;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+
+
+
 #Start Google Assistant
 while true; do
     read -p "Would you like to start Google Assistant now? (y/n)" yn
