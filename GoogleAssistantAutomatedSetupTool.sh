@@ -150,7 +150,7 @@ clear
 while true; do
     read -p "Do you wish to install portaudio19-dev, libffi-dev, and libssl-dev? (y/n)" yn
     case $yn in
-        [Yy]* ) 
+        [Yy]* ) sudo apt-get install portaudio19-dev libffi-dev libssl-dev;
 
 		break;;
         [Nn]* ) echo "Google Assistant set up failure.."; sleep 5; exit;;
