@@ -90,7 +90,7 @@ sleep .5
 client_secret_json_path=$(locate -n 1 apps.googleusercontent.com.json)
 
 
-if [ -f $client_secret_json_path ]
+if [ -f "$client_secret_json_path" ]
 then
 	echo "The client-secret.json has been loaded successfully!" 
 	sleep 2
@@ -179,7 +179,7 @@ sudo updatedb
 
 clear
 
-python_environment=$(locate -n 1 /env/bin/activate)
+python_environment=$(find -i /env/bin/activate)
 
 if [ -f "$python_environment" ]
 then
