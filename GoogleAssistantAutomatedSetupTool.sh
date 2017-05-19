@@ -11,6 +11,12 @@ echo "A special thanks to Novaspirit Tech (https://goo.gl/8DZhea) for inspiring 
 sleep 2
 clear
 
+echo "WARNING!: This script is currently BROKEN due to some chanes Google made in authentication of the API and some other issuses. I am working hard to fix the issuse.
+
+"
+sleep 5 
+exit
+
 #Update Database 
 while true; do
     read -p "Do you wish to to update your database? Note: This is necessary to configure the script. (y/n)" yn
@@ -179,7 +185,7 @@ sudo updatedb
 
 clear
 
-python_environment=$(find -i /env/bin/activate)
+python_environment=$(locate -n 1 /env/bin/activate)
 
 if [ -f "$python_environment" ]
 then
@@ -214,7 +220,7 @@ clear
 while true; do
     read -p "Do you wish to enter the python environment now? (y/n)" yn
     case $yn in
-        [Yy]* ) source $python_environment; break;;
+        [Yy]* ) source "$python_environment"; break;;
         [Nn]* ) echo "Google Assistant set up failure.."; sleep 5; exit;;
         * ) echo "Please answer yes or no.";;
     esac
@@ -248,7 +254,7 @@ clear
 while true; do
     read -p "Do you wish to authenticate now? (y/n)" yn
     case $yn in
-        [Yy]* ) python -m googlesamples.assistant.auth_helpers --client-secrets $client_secret_json_path; break;;
+        [Yy]* ) python -m googlesamples.assistant.auth_helpers --client-secrets "$client_secret_json_path"; break;;
         [Nn]* ) echo "Google Assistant set up failure.."; sleep 5; exit;;
         * ) echo "Please answer yes or no.";;
     esac
@@ -269,8 +275,8 @@ google=$(locate -n 1 Google.sh)
 while true; do
     read -p "Would you like create easy access to Google Assistant? This would allow you to type "Google.sh" into the terminal at it would run Google Assistant. (y/n)" yn
     case $yn in
-        [Yy]* ) sudo cp $google /usr/local/bin; echo "Now you can type "Google.sh" in a new terminal and will run Google Assistant";
-				sleep 3; break;;
+        [Yy]* ) sudo cp "$google" /usr/local/bin; echo "Now you can type "Google.sh" in a new terminal and will run Google Assistant";
+				sleep 3;
         [Nn]* ) echo "okay.."; sleep 5;;
         * ) echo "Please answer yes or no.";;
     esac
